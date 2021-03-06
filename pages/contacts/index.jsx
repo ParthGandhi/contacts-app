@@ -1,4 +1,8 @@
 import { useState } from "react";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+
+import styles from "./contacts.module.scss";
 
 function ContactSummary({ id, name, onClickHandler }) {
   return (
@@ -10,7 +14,7 @@ function ContactSummary({ id, name, onClickHandler }) {
 
 function ContactDetails({ id, name, email, phone }) {
   return (
-    <div key={id}>
+    <div key={id} className={styles.test}>
       <div>{name}</div>
       <div>Email: {email ? email : "None"}</div>
       <div>Phone: {phone ? phone : "None"}</div>
@@ -58,6 +62,10 @@ function Contacts() {
           email={selectedContact.email}
         />
       )}
+
+      <Popup trigger={<button className="button">New</button>} modal>
+        <div>Add a new contact</div>
+      </Popup>
     </div>
   );
 }
