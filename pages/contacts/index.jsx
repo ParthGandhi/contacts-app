@@ -1,6 +1,5 @@
 import { useState } from "react";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
+import { Formik, Field, Form } from "formik";
 
 import styles from "./contacts.module.scss";
 
@@ -46,7 +45,6 @@ function Contacts() {
     <div>
       <div>{selectedContact ? selectedContact.name : "Select a contact."}</div>
       <div> You have {contactsData.length} friends!</div>
-
       {Object.entries(contactsData).map(([contactId, contactData]) => (
         <ContactSummary
           id={contactId}
@@ -54,7 +52,6 @@ function Contacts() {
           onClickHandler={handleSelectContact}
         />
       ))}
-
       {selectedContact && (
         <ContactDetails
           id={selectedContact.id}
@@ -62,10 +59,24 @@ function Contacts() {
           email={selectedContact.email}
         />
       )}
-
-      <Popup trigger={<button className="button">New</button>} modal>
-        <div>Add a new contact</div>
-      </Popup>
+      <Formik
+        initialValues={{
+          name: "",
+          email: "",
+        }}
+        onSubmit={async (values) => {
+          alert("test!");
+        }}
+      >
+        {/* add validations */}
+        <Form>
+          <label htmlFor="name">Name</label>
+          <Field id="name" name="name" placeholder-="Name"></Field>
+          <label htmlFor="email">Email</label>
+          <Field id="email" name="email" placeholder-="Email"></Field>
+          <button type="submit">Add</button>
+        </Form>
+      </Formik>
     </div>
   );
 }
