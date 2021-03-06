@@ -1,3 +1,41 @@
-.test {
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+  width: 300px;
+  height: 300px;
   border: 1px solid black;
+}
+
+.selectedContact {
+  grid-column-start: span 2;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.addContact {
+  grid-column-start: span 2;
+  border: 1px solid black;
+}
+
+.contactSummary {
+  grid-column-start: 1;
+  border: 1px solid black;
+  width: 150px;
+}
+
+.selectedContactEmail {
+  width: 150px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contactDetails {
+
 }

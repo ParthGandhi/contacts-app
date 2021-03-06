@@ -5,7 +5,11 @@ import styles from "./contacts.module.scss";
 
 function ContactSummary({ id, name, onClickHandler }) {
   return (
-    <div key={id} onClick={() => onClickHandler(id)}>
+    <div
+      key={id}
+      className={styles.contactSummary}
+      onClick={() => onClickHandler(id)}
+    >
       {name}
     </div>
   );
@@ -13,10 +17,14 @@ function ContactSummary({ id, name, onClickHandler }) {
 
 function ContactDetails({ id, name, email, phone }) {
   return (
-    <div key={id} className={styles.test}>
+    <div key={id} className={styles.contactDetails}>
       <div>{name}</div>
-      <div>Email: {email ? email : "None"}</div>
-      <div>Phone: {phone ? phone : "None"}</div>
+      {email && (
+        <a className={styles.selectedContactEmail} href={`mailto:${email}`}>
+          {email}
+        </a>
+      )}
+      {phone && <div>{phone}</div>}
     </div>
   );
 }
@@ -30,6 +38,7 @@ const defaultContactsData = {
   [Math.random()]: {
     name: "parth2",
     email: "me@parthgandhi.dev",
+    phone: "9908577444",
   },
 };
 
@@ -42,9 +51,11 @@ function Contacts() {
   };
 
   return (
-    <div>
-      <div>{selectedContact ? selectedContact.name : "Select a contact."}</div>
-      <div> You have {Object.keys(contactsData).length} friends!</div>
+    <div className={styles.container}>
+      <div className={styles.selectedContact}>
+        {" "}
+        You have {Object.keys(contactsData).length} friends!
+      </div>
       {Object.entries(contactsData).map(([contactId, contactData]) => (
         <ContactSummary
           id={contactId}
@@ -57,9 +68,11 @@ function Contacts() {
           id={selectedContact.id}
           name={selectedContact.name}
           email={selectedContact.email}
+          phone={selectedContact.phone}
         />
       )}
       <Formik
+        className={styles.addContact}
         initialValues={{
           name: "",
           email: "",
@@ -76,7 +89,7 @@ function Contacts() {
         }}
       >
         {/* add validations */}
-        <Form>
+        <Form className={styles.addContact}>
           <label htmlFor="name">Name</label>
           <Field id="name" name="name" placeholder-="Name"></Field>
           <label htmlFor="email">Email</label>
