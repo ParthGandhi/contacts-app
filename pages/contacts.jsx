@@ -1,45 +1,63 @@
 import { useState } from "react";
 
-function ContactSummary({ id, name, email }) {
+function ContactSummary({ id, name, onClickHandler }) {
   return (
-    <div key={id}>
-      <div>{name}</div>
-      <div>{email}</div>
+    <div key={id} onClick={() => onClickHandler(id)}>
+      {name}
     </div>
   );
 }
 
-// is this the right way to pass default args?
+function ContactDetails({ id, name, email, phone }) {
+  return (
+    <div key={id}>
+      <div>{name}</div>
+      <div>Email: {email ? email : "None"}</div>
+      <div>Phone: {phone ? phone : "None"}</div>
+    </div>
+  );
+}
+
 // how to strictly type this data container
-const defaultContactsData = [
-  {
-    id: 1,
+const defaultContactsData = {
+  1: {
     name: "parth",
     email: "parthgandhi@outlook.com",
   },
-  {
-    id: 2,
+  2: {
     name: "parth2",
     email: "me@parthgandhi.dev",
   },
-];
+};
 
-function Contacts({ contactsData }) {
-  contactsData = contactsData || defaultContactsData;
+function Contacts() {
+  const [contactsData, setContactsData] = useState(defaultContactsData);
   const [selectedContact, setSelectedContact] = useState(null);
+
+  const handleSelectContact = (contactId) => {
+    setSelectedContact(contactsData[contactId]);
+  };
 
   return (
     <div>
       <div>{selectedContact ? selectedContact.name : "Select a contact."}</div>
       <div> You have {contactsData.length} friends!</div>
 
-      {contactsData.map((contactData, index) => (
+      {Object.entries(contactsData).map(([contactId, contactData]) => (
         <ContactSummary
-          id={contactData.id}
+          id={contactId}
           name={contactData.name}
-          email={contactData.email}
+          onClickHandler={handleSelectContact}
         />
       ))}
+
+      {selectedContact && (
+        <ContactDetails
+          id={selectedContact.id}
+          name={selectedContact.name}
+          email={selectedContact.email}
+        />
+      )}
     </div>
   );
 }
