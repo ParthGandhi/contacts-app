@@ -23,11 +23,11 @@ function ContactDetails({ id, name, email, phone }) {
 
 // how to strictly type this data container
 const defaultContactsData = {
-  1: {
+  [Math.random()]: {
     name: "parth",
     email: "parthgandhi@outlook.com",
   },
-  2: {
+  [Math.random()]: {
     name: "parth2",
     email: "me@parthgandhi.dev",
   },
@@ -44,7 +44,7 @@ function Contacts() {
   return (
     <div>
       <div>{selectedContact ? selectedContact.name : "Select a contact."}</div>
-      <div> You have {contactsData.length} friends!</div>
+      <div> You have {Object.keys(contactsData).length} friends!</div>
       {Object.entries(contactsData).map(([contactId, contactData]) => (
         <ContactSummary
           id={contactId}
@@ -65,7 +65,13 @@ function Contacts() {
           email: "",
         }}
         onSubmit={async (values) => {
-          alert("test!");
+          setContactsData({
+            ...contactsData,
+            [Math.random()]: {
+              name: values.name,
+              email: values.email,
+            },
+          });
         }}
       >
         {/* add validations */}
