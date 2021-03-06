@@ -64,7 +64,7 @@ function Contacts() {
           name: "",
           email: "",
         }}
-        onSubmit={async (values) => {
+        onSubmit={async (values, { resetForm }) => {
           setContactsData({
             ...contactsData,
             [Math.random()]: {
@@ -72,6 +72,7 @@ function Contacts() {
               email: values.email,
             },
           });
+          resetForm();
         }}
       >
         {/* add validations */}
